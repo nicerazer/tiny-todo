@@ -16,7 +16,7 @@ class CreateTodosTable extends Migration
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('category_id')->nullable();
+            $table->foreignId('category_id');
             $table->boolean('is_done')->default(false);
             $table->timestamps();
         });
