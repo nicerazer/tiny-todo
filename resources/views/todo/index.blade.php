@@ -4,7 +4,7 @@
 <head>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-  <title>Tiny Todo</title>
+  <title>Edit</title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
           <section class="card shadow mb-4">
             <div class="card-body">
               <h1 class="fw-bold text-muted">Add new todo</h1>
-              <form action="/todo" method="POST">
+              <form action="/todos" method="POST">
                 @csrf
                 <div class="input-group mb-3">
                   <span class="input-group-text fst-italic" id="new-todo-label">add a new todo</span>
@@ -67,14 +67,14 @@
                   @foreach($todos as $todo)
                   <tr>
                     <td colspan="2" class="w-100">
-                      <a href="/todo/{{ $todo->id }}/edit" class="text-decoration-none @if($todo->is_done) text-decoration-line-through @endif">{{ $todo->title }}</a>&nbsp;
+                      <a href="/todos/{{ $todo->id }}/edit" class="text-decoration-none @if($todo->is_done) text-decoration-line-through @endif">{{ $todo->title }}</a>&nbsp;
                       <span class="badge rounded-pill bg-primary">{{ $todo->category->name }}</span>
                     </td>
                     <td>
                       @if($todo->is_done)
                       <a href="#" class="btn btn-sm btn-primary disabled"><i class="bi bi-check"></i></a>
                       @else
-                      <a href="/todo/{{ $todo->id }}/mark-as-done" class="btn btn-sm btn-primary"><i class="bi bi-check"></i></a>
+                      <a href="/todos/{{ $todo->id }}/mark-as-done" class="btn btn-sm btn-primary"><i class="bi bi-check"></i></a>
                       @endif
                     </td>
                   </tr>
@@ -93,3 +93,4 @@
 </body>
 
 </html>
+

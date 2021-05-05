@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Category;
+use App\Http\Controllers\TodoController;
 use App\Models\Todo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,58 +12,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Always redirect / to /todo
-Route::redirect('/', '/todo');
+Route::redirect('/', '/todos');
 
-// Routes for todo:read
-Route::get('/todo', function () {
-    return view('todo-index', ['todos' => Todo::all(), 'categories' => Category::all()]);
-});
-
-// Routes for todo:create
-Route::post('/todo', function (Request $request) {
-    // New Todo object
-    $todo = new Todo;
-
-    // Setup new todo with form data
-    $todo->title = $request->todo_title;
-    $todo->category_id = $request->category_id;
-
-    // Save the todo into database
-    $todo->save();
-
-    return redirect('/');
-});
-
-// READ: Routes for todo:edit, todo:delete
-Route::get('/todo/{id}/edit', function ($id) {
-    return view('todo-edit', [
-        'todo' => Todo::find($id) ,
-        'categories' => Category::all()
-    ]);
-});
+Route::resource('todos', TodoController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
 
 // POST: Routes for marking a todo as done
-Route::get('/todo/{id}/mark-as-done', function ($id) {
-    Todo::find($id)->update([ 'is_done' => true ]);
-    return redirect('/');
-});
-
-// PUT: Routes for todo:update
-Route::put('/todo/{id}', function ($id, Request $request) {
-    // Update query statement
-    Todo::find($id)->update([
-        'title' => $request->todo_title,
-        'category_id' => $request->category_id,
-        'is_done' => $request->todo_is_done,
-    ]);
-
-    // Redirect
-    return redirect('/');
-});
-
-// Routes for todo:delete
-Route::delete('/todo/{id}', function ($id) {
-    Todo::destroy($id);
+Route::get('/todos/{id}/mark-as-done', function (Todo $todo) {
+    return 'nice';
+    $todo->is_done = true;
+    $todo->save();
     return redirect('/');
 });
 
@@ -74,4 +30,3 @@ Route::delete('/todo/{id}', function ($id) {
 |--------------------------------------------------------------------------
 */
 
-require __DIR__.'/auth.php';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
@@ -14,17 +15,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('todo.index', ['todos' => Todo::all(), 'categories' => Category::all()]);
     }
 
     /**
@@ -35,18 +26,17 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Todo  $todo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Todo $todo)
-    {
-        //
+        // New Todo object
+        $todo = new Todo;
+    
+        // Setup new todo with form data
+        $todo->title = $request->todo_title;
+        $todo->category_id = $request->category_id;
+    
+        // Save the todo into database
+        $todo->save();
+    
+        return redirect('/');
     }
 
     /**
@@ -57,7 +47,10 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-        //
+        return view('todo.edit', [
+            'todo' => $todo,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -69,7 +62,15 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        //
+        // Update query statement
+        $todo->update([
+            'title' => $request->todo_title,
+            'category_id' => $request->category_id,
+            'is_done' => $request->todo_is_done,
+        ]);
+
+        // Redirect
+        return redirect('/');
     }
 
     /**
@@ -80,6 +81,8 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        //
+        $todo->delete();
+        return redirect('/');
     }
+
 }
