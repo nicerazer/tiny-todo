@@ -17,12 +17,7 @@ Route::redirect('/', '/todos');
 Route::resource('todos', TodoController::class)->only(['index', 'store', 'edit', 'update', 'destroy']);
 
 // POST: Routes for marking a todo as done
-Route::get('/todos/{id}/mark-as-done', function (Todo $todo) {
-    return 'nice';
-    $todo->is_done = true;
-    $todo->save();
-    return redirect('/');
-});
+Route::get('/todos/{todo}/mark-as-done', [TodoController::class , 'markAsDone']);
 
 /*
 |--------------------------------------------------------------------------

@@ -47,6 +47,7 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
+        return $todo;
         return view('todo.edit', [
             'todo' => $todo,
             'categories' => Category::all()
@@ -82,6 +83,12 @@ class TodoController extends Controller
     public function destroy(Todo $todo)
     {
         $todo->delete();
+        return redirect('/');
+    }
+
+    public function markAsDone(Todo $todo) {
+        $todo->is_done = true;
+        $todo->save();
         return redirect('/');
     }
 
