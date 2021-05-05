@@ -47,7 +47,6 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
-        return $todo;
         return view('todo.edit', [
             'todo' => $todo,
             'categories' => Category::all()
